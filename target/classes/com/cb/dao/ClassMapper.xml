@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cb.dao.ClassMapper">
+
+    <resultMap id="selectCTMap" type="com.cb.pojo.Classes">
+        <id property="id" column="c_id"/>
+        <result property="name" column="c_name"/>
+
+        <association property="teacher" javaType="com.cb.pojo.Teacher">
+            <id property="id" column="t_id"/>
+            <result property="name" column="t_name"/>
+        </association>
+<!--        ofType指定集合对象类型-->
+        <collection property="students" ofType="com.cb.pojo.Student">
+            <id property="id" column="s_id"/>
+
+            <result property="name" column="s_name"/>
+
+        </collection>
+    </resultMap>
+    <select id="selectCT" parameterType="int" resultMap="selectCTMap">
+        select * from class as c ,teacher as t , student as s where c.teacher_id=t.t_id and
+        c.c_id=s.class_id and  c.c_id=#{id}
+    </select>
+
+    <select id="selectCTS" parameterType="int" resultMap="selectCTMap">
+select * from class c, teacher t,student s where c.teacher_id=t.t_id and c.C_id=s.class_id and  c.c_id=#{id}
+
+    </select>
+</mapper>
